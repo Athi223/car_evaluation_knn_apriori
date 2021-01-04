@@ -1,6 +1,6 @@
-### Car Desirability Analysis
+# Car Desirability Analysis
 
-# Python based Miniproject implementing KNN and Apriori Algorithm on "Car Evaluation Dataset"
+### Python based Miniproject implementing KNN and Apriori Algorithm on "Car Evaluation Dataset"
 
 ## Languages Used
 1. Python (Backend)
