@@ -122,11 +122,11 @@ def testing():
 			# Unacc
 			test.prediction_test('Very High', 'High', '2', '2', 'Small', 'Low', 'Unacceptable')
 			# Acc
-			test.prediction_test('High', 'Medium', '3', '5', 'Medium', 'Medium', 'Acceptable')
+			test.prediction_test('High', 'Medium', '3', '5+', 'Medium', 'Medium', 'Acceptable')
 			# Good
 			test.prediction_test('Medium', 'Medium', '4', '4', 'Medium', 'Medium', 'Preferred')
 			# Vgood
-			test.prediction_test('Low', 'Medium', '4', '5', 'Large', 'High', 'Optimal')
+			test.prediction_test('Low', 'Medium', '4', '5+', 'Large', 'High', 'Optimal')
 			## Classification Page
 			test.classification_test()
 			## Testing Page
