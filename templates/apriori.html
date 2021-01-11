@@ -12,12 +12,13 @@
 	.flip-container {
 		background-color: white;
 		border-radius: 6px;
+		
 	}
 	.flip-container:hover .flipper {
 		transform: rotateY(180deg);
 	}
 	.flip-container, .front, .back {
-		height: 33vh;
+		height: 36vh;
 		width: 100%;
 	}
 	/* flip speed goes here */
@@ -50,36 +51,20 @@
 	}
 </style>
 <script>
-	const mapper = (index) => {
-		return {
-			buying: [ "Selling Price", 0 ],
-			maint: [ "Maintainence Price", 0 ],
-			doors: [ "Doors", 1 ],
-			persons: [ "Persons", 1 ],
-			lug_boot: [ "Luggage Space", 2 ],
-			safety: [ "Safety", 0 ]
-		}[index]
-	}
-	const lowmedhigh = (number) => {
-		if(number == 0)
-			return 'Low'
-		if(number == 1)
-			return 'Medium'
-		if(number == 2)
-			return 'High'
-		return 'Very High'
-	}
-	const smallmedlarge = (number) => {
-		if(number == 0)
-			return 'Small'
-		if(number == 1)
-			return 'Medium'
-		return 'Large'
-	}
+	const mapper = index => Object({
+		buying: [ "Selling Price", 0 ],
+		maint: [ "Maintainence Price", 0 ],
+		doors: [ "Doors", 1 ],
+		persons: [ "Persons", 1 ],
+		lug_boot: [ "Luggage Space", 2 ],
+		safety: [ "Safety", 0 ]
+	})[index]
+	const lowmedhigh = number => ['Low', 'Medium', 'High', 'Very High'][number]
+	const smallmedlarge = number => ['Small', 'Medium', 'Large'][number]
 </script>
 {% endblock %}
 {% block contents %}
-<div class="container bg-dark p-2 rounded">
+<div class="container bg-dark p-2 my-1 rounded">
 	<h3 class="text-light">Customer Desirability Trends</h3>
 	<h6 class="text-primary">
 		Following visualizations show car desirability/acceptability trends among customers taking into consideration the mentioned factors. Factors are arranged according to their importance in each case. <b class="text-info">Prices, Space & Safety</b>: <span class="text-info">(0)</span> => <span class="text-warning">Low</span>, <span class="text-info">(1)</span> => <span class="text-warning">Medium</span>, <span class="text-info">(2)</span> => <span class="text-warning">High</span>, <span class="text-info">(3)</span> => <span class="text-warning">Very High</span>
@@ -87,60 +72,56 @@
 </div>
 <div class="row">
 	<div class="col-md-12 col-xl-6">
-		<div class="bg-light p-3 rounded mt-4">
-			<div class="flip-container">
-				<div class="flipper">
-					<div class="front">
-						<!-- front content -->
-						<canvas id="unacc"></canvas>
-					</div>
-					<div class="back d-flex align-items-center justify-content-center flex-column">
-						<!-- back content -->
-						<script>
-							let curr
-							let content_unacc = '<b class="m-2 fs-4" style="color: #f00;">Undesired Car Factors</b><ul>'
-							{% for key, value in data.unacc.items() %}
-								curr = mapper('{{key}}')
-								content_unacc += '<li class="m-1 fs-5"><b>' + curr[0] + ' ➡</b> '
-								{% for i in value %}
-									content_unacc += (curr[1] ? (curr[1] == 1 ? {{ i }} : smallmedlarge({{ i }})) : lowmedhigh({{ i }})) + ", "
-								{% endfor %}
-								content_unacc = content_unacc.substring(0, content_unacc.length - 2);
-								content_unacc += '</li>'
+		<div class="flip-container mt-4">
+			<div class="flipper">
+				<div class="front">
+					<!-- front content -->
+					<canvas id="unacc"></canvas>
+				</div>
+				<div class="back d-flex align-items-center justify-content-center flex-column">
+					<!-- back content -->
+					<script>
+						let curr
+						let content_unacc = '<b class="m-2 fs-4" style="color: #f00;">Undesired Car Factors</b><ul>'
+						{% for key, value in data.unacc.items() %}
+							curr = mapper('{{key}}')
+							content_unacc += '<li class="m-1 fs-5"><b>' + curr[0] + ' ➡</b> '
+							{% for i in value %}
+								content_unacc += (curr[1] ? (curr[1] == 1 ? {{ i }} : smallmedlarge({{ i }})) : lowmedhigh({{ i }})) + ", "
 							{% endfor %}
-							content_unacc += '</ul>'
-							document.write(content_unacc)
-						</script>
-					</div>
+							content_unacc = content_unacc.substring(0, content_unacc.length - 2);
+							content_unacc += '</li>'
+						{% endfor %}
+						content_unacc += '</ul>'
+						document.write(content_unacc)
+					</script>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="col-md-12 col-xl-6">
-		<div class="bg-light p-3 rounded mt-4">
-			<div class="flip-container">
-				<div class="flipper">
-					<div class="front">
-						<!-- front content -->
-						<canvas id="acc"></canvas>
-					</div>
-					<div class="back d-flex align-items-center justify-content-center flex-column">
-						<!-- back content -->
-						<script>
-							let content_acc = '<b class="m-2 fs-4" style="color: #f60;">Acceptable Car Factors</b><ul>'
-							{% for key, value in data.acc.items() %}
-								curr = mapper('{{key}}')
-								content_acc += '<li class="m-2 fs-5"><b>' + curr[0] + ' ➡</b> '
-								{% for i in value %}
-									content_acc += (curr[1] ? (curr[1] == 1 ? {{ i }} : smallmedlarge({{ i }})) : lowmedhigh({{ i }})) + ", "
-								{% endfor %}
-								content_acc = content_acc.substring(0, content_acc.length - 2);
-								content_acc += '</li>'
+		<div class="flip-container mt-4">
+			<div class="flipper">
+				<div class="front">
+					<!-- front content -->
+					<canvas id="acc"></canvas>
+				</div>
+				<div class="back d-flex align-items-center justify-content-center flex-column">
+					<!-- back content -->
+					<script>
+						let content_acc = '<b class="m-2 fs-4" style="color: #f60;">Acceptable Car Factors</b><ul>'
+						{% for key, value in data.acc.items() %}
+							curr = mapper('{{key}}')
+							content_acc += '<li class="m-2 fs-5"><b>' + curr[0] + ' ➡</b> '
+							{% for i in value %}
+								content_acc += (curr[1] ? (curr[1] == 1 ? {{ i }} : smallmedlarge({{ i }})) : lowmedhigh({{ i }})) + ", "
 							{% endfor %}
-							content_acc += '</ul>'
-							document.write(content_acc)
-						</script>
-					</div>
+							content_acc = content_acc.substring(0, content_acc.length - 2);
+							content_acc += '</li>'
+						{% endfor %}
+						content_acc += '</ul>'
+						document.write(content_acc)
+					</script>
 				</div>
 			</div>
 		</div>
@@ -148,59 +129,55 @@
 </div>
 <div class="row">
 	<div class="col-md-12 col-xl-6">
-		<div class="bg-light p-3 rounded mt-4">
-			<div class="flip-container">
-				<div class="flipper">
-					<div class="front">
-						<!-- front content -->
-						<canvas id="good"></canvas>
-					</div>
-					<div class="back d-flex align-items-center justify-content-center flex-column">
-						<!-- back content -->
-						<script>
-							let content_good = '<b class="m-2 fs-4" style="color: #fc0;">Preferred Car Factors</b><ul>'
-							{% for key, value in data.good.items() %}
-								curr = mapper('{{key}}')
-								content_good += '<li class="m-2 fs-5"><b>' + curr[0] + ' ➡</b> '
-								{% for i in value %}
-									content_good += (curr[1] ? (curr[1] == 1 ? {{ i }} : smallmedlarge({{ i }})) : lowmedhigh({{ i }})) + ", "
-								{% endfor %}
-								content_good = content_good.substring(0, content_good.length - 2);
-								content_good += '</li>'
+		<div class="flip-container mt-4">
+			<div class="flipper">
+				<div class="front">
+					<!-- front content -->
+					<canvas id="good"></canvas>
+				</div>
+				<div class="back d-flex align-items-center justify-content-center flex-column">
+					<!-- back content -->
+					<script>
+						let content_good = '<b class="m-2 fs-4" style="color: #fc0;">Preferred Car Factors</b><ul>'
+						{% for key, value in data.good.items() %}
+							curr = mapper('{{key}}')
+							content_good += '<li class="m-2 fs-5"><b>' + curr[0] + ' ➡</b> '
+							{% for i in value %}
+								content_good += (curr[1] ? (curr[1] == 1 ? {{ i }} : smallmedlarge({{ i }})) : lowmedhigh({{ i }})) + ", "
 							{% endfor %}
-							content_good += '</ul>'
-							document.write(content_good)
-						</script>
-					</div>
+							content_good = content_good.substring(0, content_good.length - 2);
+							content_good += '</li>'
+						{% endfor %}
+						content_good += '</ul>'
+						document.write(content_good)
+					</script>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="col-md-12 col-xl-6">
-		<div class="bg-light p-3 rounded mt-4">
-			<div class="flip-container">
-				<div class="flipper">
-					<div class="front">
-						<!-- front content -->
-						<canvas id="vgood"></canvas>
-					</div>
-					<div class="back d-flex align-items-center justify-content-center flex-column">
-						<!-- back content -->
-						<script>
-							let content_vgood = '<b class="m-2 fs-4" style="color: #0c0;">Optimal Car Factors</b><ul>'
-							{% for key, value in data.vgood.items() %}
-								curr = mapper('{{key}}')
-								content_vgood += '<li class="m-2 fs-5"><b>' + curr[0] + ' ➡</b> '
-								{% for i in value %}
-									content_vgood += (curr[1] ? (curr[1] == 1 ? {{ i }} : smallmedlarge({{ i }})) : lowmedhigh({{ i }})) + ", "
-								{% endfor %}
-								content_vgood = content_vgood.substring(0, content_vgood.length - 2);
-								content_vgood += '</li>'
+		<div class="flip-container mt-4">
+			<div class="flipper">
+				<div class="front">
+					<!-- front content -->
+					<canvas id="vgood"></canvas>
+				</div>
+				<div class="back d-flex align-items-center justify-content-center flex-column">
+					<!-- back content -->
+					<script>
+						let content_vgood = '<b class="m-2 fs-4" style="color: #0c0;">Optimal Car Factors</b><ul>'
+						{% for key, value in data.vgood.items() %}
+							curr = mapper('{{key}}')
+							content_vgood += '<li class="m-2 fs-5"><b>' + curr[0] + ' ➡</b> '
+							{% for i in value %}
+								content_vgood += (curr[1] ? (curr[1] == 1 ? {{ i }} : smallmedlarge({{ i }})) : lowmedhigh({{ i }})) + ", "
 							{% endfor %}
-							content_vgood += '</ul>'
-							document.write(content_vgood)
-						</script>
-					</div>
+							content_vgood = content_vgood.substring(0, content_vgood.length - 2);
+							content_vgood += '</li>'
+						{% endfor %}
+						content_vgood += '</ul>'
+						document.write(content_vgood)
+					</script>
 				</div>
 			</div>
 		</div>
@@ -219,6 +196,14 @@
 		legend: {
 			display: false
 		},
+		layout: {
+            padding: {
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: 10
+            }
+        },
 		scales: {
 		xAxes: [{
 			gridLines: {
