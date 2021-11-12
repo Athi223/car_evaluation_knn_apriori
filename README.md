@@ -18,7 +18,7 @@
 ## How to Setup:
 1. Clone this repo
 2. Open repo folder in Terminal/PS
-3. Create virtual-env (Assuming Python3 installed) `python3 -m venv venv`
+3. Create virtual-env (Assuming Python3 installed) `python -m venv venv`
 4. Activate virtual-env (Windows) `.\venv\Scripts\activate` or (Linux) `. venv/bin/activate`
 5. Run `pip install -r requirements.txt`
 6. Download: [Arules](https://drive.google.com/file/d/1QMkk7B7hfaWkuecpCc0TQIKP7vtfVPtD/view?usp=sharing) and extract into `venv\lib\site-packages\` (replace existing files).
