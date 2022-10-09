@@ -14,6 +14,7 @@
 3. Numpy
 4. Arules
 5. Scikit-learn
+6. Selenium
 
 ## How to Setup:
 1. Clone this repo
@@ -24,6 +25,10 @@
 6. Download: [Arules](https://drive.google.com/file/d/1QMkk7B7hfaWkuecpCc0TQIKP7vtfVPtD/view?usp=sharing) and extract into `venv\lib\site-packages\` (replace existing files).
 7. Run `python car_evaluation.py`
 8. The project will be available at `localhost:5000`
+
+## Selenium Testing:
+1. For Selenium testing, you'll need Selenium Firefox driver: [Geckodriver](https://github.com/mozilla/geckodriver/releases/) installed, and on `PATH`.
+2. Alternately, you can use Selenium Chrome driver: [ChromeDriver](https://chromedriver.storage.googleapis.com/index.html) installed, and on `PATH` as well. In this case, you'll have to change code from [webdriver.Firefox()](https://github.com/Athi223/car_evaluation_knn_apriori/blob/main/selenium_testing.py#L8) to `webdriver.Chrome()`.
 
 # [Dataset](https://archive.ics.uci.edu/ml/datasets/car+evaluation)
 
